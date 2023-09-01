@@ -5,7 +5,13 @@
 function reloadExtension(id) {
     if (id) {
         chrome.management.setEnabled(id, false, function() {
-            chrome.management.setEnabled(id, true);
+            chrome.management.setEnabled(id, ()=>{
+
+                 chrome.tabs.query({active: true, currentWindow: true}, function (arrayOfTabs) {
+              chrome.tabs.reload(arrayOfTabs[0].id);
+            });
+            });
+           
         });
     } else {
         if (confirm("No extension selected! Want to choose one?")) {
